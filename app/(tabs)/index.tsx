@@ -1,7 +1,7 @@
 import { Camera } from "expo-camera";
 import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
-import * as Sharing from "expo-sharing";
+import * as MediaLibrary from "expo-media-library";
 import { useState } from "react";
 import { Alert, Button, Image, StyleSheet, Text, View } from "react-native";
 
@@ -62,12 +62,8 @@ export default function Index() {
         to: destPath,
       });
 
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (isAvailable) {
-        await Sharing.shareAsync(destPath);
-      } else {
-        Alert.alert("Error", "Sharing is not available on this device");
-      }
+      await MediaLibrary.saveToLibraryAsync(destPath);
+      Alert.alert("Success", "Image saved to gallery!");
     } catch (error) {
       Alert.alert("Error", "Failed to save image: " + error);
     }
